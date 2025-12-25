@@ -20,14 +20,17 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Table structure for table `products`
+-- Table structure for table `cars`
 --
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE `products` (
+DROP TABLE IF EXISTS `cars`;
+CREATE TABLE `cars` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `description` text,
+  `model` varchar(255) DEFAULT NULL,
+  `year` int(4) DEFAULT NULL,
+  `plate_number` varchar(255) DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -55,14 +58,14 @@ DROP TABLE IF EXISTS `invoice_items`;
 CREATE TABLE `invoice_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `car_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `invoice_id` (`invoice_id`),
-  KEY `product_id` (`product_id`),
+  KEY `car_id` (`car_id`),
   CONSTRAINT `invoice_items_ibfk_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `invoice_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT
+  CONSTRAINT `invoice_items_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

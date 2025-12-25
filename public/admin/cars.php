@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../../config/db.php';
-require_once '../../src/Product.php';
+require_once '../../src/Car.php';
 
 // Auth check
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -10,23 +10,23 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 $pdo = getDBConnection();
-$product = new Product($pdo);
-$products = $product->getAll();
+$car = new Car($pdo);
+$cars = $car->getAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Products</title>
+    <title>Manage Cars</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <?php include '_nav.php'; ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Manage Products</h2>
-            <a href="add_product.php" class="btn btn-success">Add New Product</a>
+            <h2>Manage Cars</h2>
+            <a href="add_car.php" class="btn btn-success">Add New Car</a>
         </div>
 
         <?php if (isset($_GET['success'])): ?>
@@ -41,19 +41,27 @@ $products = $product->getAll();
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Plate Number</th>
                     <th>Price</th>
+                    <th>Image</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($products as $p): ?>
+                <?php foreach ($cars as $c): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($p['id']); ?></td>
-                    <td><?php echo htmlspecialchars($p['name']); ?></td>
-                    <td>$<?php echo htmlspecialchars(number_format($p['price'], 2)); ?></td>
+                    <td><?php echo htmlspecialchars($c['id']); ?></td>
+                    <td><?php echo htmlspecialchars($c['name']); ?></td>
+                    <td><?php echo htmlspecialchars($c['model']); ?></td>
+                    <td><?php echo htmlspecialchars($c['year']); ?></td>
+                    <td><?php echo htmlspecialchars($c['plate_number']); ?></td>
+                    <td>$<?php echo htmlspecialchars(number_format($c['price'], 2)); ?></td>
+                    <td><img src="<?php echo htmlspecialchars($c['image_url']); ?>" alt="<?php echo htmlspecialchars($c['name']); ?>" width="100"></td>
                     <td>
-                        <a href="edit_product.php?id=<?php echo $p['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
-                        <a href="delete_product.php?id=<?php echo $p['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a href="edit_car.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="delete_car.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

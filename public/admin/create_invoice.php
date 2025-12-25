@@ -2,7 +2,7 @@
 session_start();
 require_once '../../config/db.php';
 require_once '../../src/User.php';
-require_once '../../src/Product.php';
+require_once '../../src/Car.php';
 
 // Auth check
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
@@ -12,10 +12,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
 $pdo = getDBConnection();
 $user = new User($pdo);
-$product = new Product($pdo);
+$car = new Car($pdo);
 
 $users = $user->getAll();
-$products = $product->getAll();
+$cars = $car->getAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,7 +64,7 @@ $products = $product->getAll();
     </div>
 
     <script>
-    const products = <?php echo json_encode($products); ?>;
+    const cars = <?php echo json_encode($cars); ?>;
     let itemIndex = 0;
 
     document.getElementById('add-item').addEventListener('click', () => {
@@ -73,9 +73,9 @@ $products = $product->getAll();
         itemRow.classList.add('row', 'mb-2', 'align-items-center');
         itemRow.innerHTML = `
             <div class="col-md-5">
-                <select class="form-select product-select" name="items[${itemIndex}][product_id]" required>
-                    <option value="">Select a product...</option>
-                    ${products.map(p => `<option value="${p.id}" data-price="${p.price}">${p.name}</option>`).join('')}
+                <select class="form-select car-select" name="items[${itemIndex}][car_id]" required>
+                    <option value="">Select a car...</option>
+                    ${cars.map(c => `<option value="${c.id}" data-price="${c.price}">${c.name}</option>`).join('')}
                 </select>
             </div>
             <div class="col-md-2">
@@ -93,7 +93,7 @@ $products = $product->getAll();
     });
 
     document.getElementById('invoice-items').addEventListener('change', (e) => {
-        if (e.target.classList.contains('product-select')) {
+        if (e.target.classList.contains('car-select')) {
             const selectedOption = e.target.options[e.target.selectedIndex];
             const price = selectedOption.dataset.price;
             const priceInput = e.target.closest('.row').querySelector('.price');

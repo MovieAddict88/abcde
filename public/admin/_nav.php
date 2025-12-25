@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="adminNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="products.php">Products</a>
+                    <a class="nav-link" href="cars.php">Cars</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="users.php">Users</a>
