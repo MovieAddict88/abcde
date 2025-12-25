@@ -26,13 +26,13 @@ if ($userId === false || empty($dueDate) || empty($items)) {
 
 $sanitizedItems = [];
 foreach ($items as $item) {
-    $productId = filter_var($item['product_id'], FILTER_VALIDATE_INT);
+    $carId = filter_var($item['car_id'], FILTER_VALIDATE_INT);
     $quantity = filter_var($item['quantity'], FILTER_VALIDATE_INT);
     $price = filter_var($item['price'], FILTER_VALIDATE_FLOAT);
 
-    if ($productId && $quantity && $price !== false) {
+    if ($carId && $quantity && $price !== false) {
         $sanitizedItems[] = [
-            'product_id' => $productId,
+            'car_id' => $carId,
             'quantity' => $quantity,
             'price' => $price
         ];
